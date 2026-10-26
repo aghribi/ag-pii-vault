@@ -1,6 +1,6 @@
 export interface HostedVaultOptions {
   apiKey: string;
-  vaultUrl?: string;
+  vaultUrl: string;
   timeout?: number;
 }
 
@@ -17,7 +17,7 @@ export class HostedVault {
   private readonly timeout: number;
   private pending: PendingEntry[] = [];
 
-  constructor({ apiKey, vaultUrl = "https://ai-api.artifact-network.org", timeout = 10_000 }: HostedVaultOptions) {
+  constructor({ apiKey, vaultUrl, timeout = 10_000 }: HostedVaultOptions) {
     this.base = vaultUrl.replace(/\/$/, "");
     this.headers = {
       Authorization: `Bearer ${apiKey}`,

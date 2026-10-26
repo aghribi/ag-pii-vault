@@ -50,3 +50,11 @@ def test_count(vault):
     vault.store("PERSON_abc12345", "Alice", "PERSON")
     vault.store("EMAIL_def67890", "alice@corp.com", "EMAIL")
     assert vault.count() == 2
+
+
+@pytest.mark.parametrize("client", ["SafeOpenAI", "SafeAnthropic"])
+def test_hosted_vault_needs_url(client):
+    import ag_pii_vault
+    pytest.importorskip(client.removeprefix("Safe").lower())
+    with pytest.raises(ValueError, match="hosted_vault_url"):
+        getattr(ag_pii_vault, client)(api_key="sk-test", vault_key="k", hosted_api_key="ag_live_test")

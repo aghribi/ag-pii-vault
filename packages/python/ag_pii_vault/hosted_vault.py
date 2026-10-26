@@ -30,16 +30,14 @@ class HostedVault:
         client = SafeOpenAI(
             api_key="sk-...",
             vault_key="my-hmac-secret",
-            vault=HostedVault(api_key="ag_live_..."),
+            vault=HostedVault(api_key="ag_live_...", vault_url="https://your-ag-platform"),
         )
 
     Values are encrypted at rest using per-user Fernet keys on the server.
     In transit they travel over HTTPS only.
     """
 
-    DEFAULT_URL = "https://ai-api.artifact-network.org"
-
-    def __init__(self, api_key: str, vault_url: str = DEFAULT_URL, timeout: float = 10.0):
+    def __init__(self, api_key: str, vault_url: str, timeout: float = 10.0):
         self._base = vault_url.rstrip("/")
         self._headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
         self._client = httpx.Client(headers=self._headers, timeout=timeout)

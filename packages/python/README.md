@@ -38,9 +38,9 @@ Contact John Smith at john@acme.com
 
 The TypeScript package `ag-pii-vault` is a port of the core classes.
 
-## Hosted API
+## Self-hosted API
 
-`HostedVault` stores the token mappings in the hosted API instead of local SQLite. Pass `hosted_api_key="ag_live_..."` to `SafeOpenAI` or `SafeAnthropic`. API keys are issued at https://ai.artifact-network.org. The default endpoint is `https://ai-api.artifact-network.org`; pass a different base URL to use your own deployment.
+`HostedVault` stores the token mappings in a self-run [ag-platform](https://github.com/aghribi/ag-platform) deployment instead of local SQLite. Pass `hosted_api_key` and `hosted_vault_url` to `SafeOpenAI` or `SafeAnthropic` (TypeScript: `new HostedVault({ apiKey, vaultUrl })`). There is no default endpoint.
 
 ## Development
 

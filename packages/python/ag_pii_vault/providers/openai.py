@@ -19,6 +19,7 @@ class SafeOpenAI:
             api_key="sk-...",
             vault_key="my-hmac-secret",
             hosted_api_key="ag_live_...",
+            hosted_vault_url="https://your-ag-platform",
         )
 
     Or bring your own vault::
@@ -32,7 +33,7 @@ class SafeOpenAI:
         vault_key:        str = "",
         vault_path:       str = ":memory:",
         hosted_api_key:  Optional[str] = None,
-        hosted_vault_url: str = "https://ai-api.artifact-network.org",
+        hosted_vault_url: Optional[str] = None,
         vault=None,
         entities:         Optional[list[str]] = None,
         llm_fallback:     bool = False,
@@ -46,6 +47,8 @@ class SafeOpenAI:
         if vault is not None:
             _vault = vault
         elif hosted_api_key:
+            if not hosted_vault_url:
+                raise ValueError("hosted_vault_url is required with hosted_api_key")
             from ..hosted_vault import HostedVault
             _vault = HostedVault(api_key=hosted_api_key, vault_url=hosted_vault_url)
         else:

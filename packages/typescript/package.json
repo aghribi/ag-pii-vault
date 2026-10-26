@@ -1,6 +1,6 @@
 {
   "name": "ag-pii-vault",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "PII tokenization SDK and proxy for AI pipelines",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -51,6 +51,9 @@
   },
   "license": "MIT",
   "contributors": [
-    { "name": "Adnan Ghribi", "url": "https://github.com/aghribi" }
+    {
+      "name": "Adnan Ghribi",
+      "url": "https://github.com/aghribi"
+    }
   ]
 }
