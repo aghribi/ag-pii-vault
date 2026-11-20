@@ -11,7 +11,7 @@ pip install "ag-pii-vault[all]"
 npm install ag-pii-vault
 ```
 
-Extras: `openai`, `anthropic`, `all`. Detection uses the spaCy model `en_core_web_lg`: `python -m spacy download en_core_web_lg`.
+Extras: `openai`, `anthropic`, `all`. Detection uses the spaCy model `en_core_web_lg`: `python -m spacy download en_core_web_lg`. French needs `fr_core_news_lg` as well: `Detector(languages=["fr", "en"])` reads each text in both languages and merges what it finds.
 
 ## Usage
 

@@ -5,6 +5,7 @@ install:
 
 spacy:
 	python -m spacy download en_core_web_lg
+	python -m spacy download fr_core_news_lg
 
 test:
 	pytest tests/ -v

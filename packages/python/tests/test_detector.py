@@ -63,3 +63,34 @@ def test_dedup_no_overlapping_spans(detector):
     for i, a in enumerate(entities):
         for b in entities[i + 1:]:
             assert not (a.start < b.end and a.end > b.start), f"Overlap: {a} / {b}"
+
+
+# ── French ────────────────────────────────────────────────────────────────
+
+@pytest.fixture(scope="module")
+def bilingual():
+    return Detector(languages=["fr", "en"])
+
+
+@pytest.mark.parametrize("text,kind,value", [
+    ("Bonjour Marie Dupont, à bientôt.", "PERSON", "Marie Dupont"),
+    ("Appelez-moi au 06 12 34 56 78.", "PHONE", "06 12 34 56 78"),
+    ("Standard : +33 2 31 45 46 47.", "PHONE", "+33 2 31 45 46 47"),
+    ("Écrivez à marie.dupont@ganil.fr.", "EMAIL", "marie.dupont@ganil.fr"),
+    ("IBAN FR76 3000 6000 0112 3456 7890 189.", "FINANCIAL_ID",
+     "FR76 3000 6000 0112 3456 7890 189"),
+    ("NIR 1 85 05 78 006 084 36.", "FR_NIR", "1 85 05 78 006 084 36"),
+    ("Hi Ivan, call +34 958 24 10 00.", "PHONE", "+34 958 24 10 00"),
+])
+def test_french_and_mixed(bilingual, text, kind, value):
+    # Covered by a span of that kind; a span may take a word more.
+    start = text.index(value)
+    assert any(e.entity_type == kind and e.start <= start
+               and e.end >= start + len(value)
+               for e in bilingual.analyze(text))
+
+
+def test_longest_overlapping_span_wins(bilingual):
+    # A date read inside the NIR must not leave the rest of it in clear.
+    entities = bilingual.analyze("NIR 1 85 05 78 006 084 36.")
+    assert [e.text for e in entities] == ["1 85 05 78 006 084 36"]

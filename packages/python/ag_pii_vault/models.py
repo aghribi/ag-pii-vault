@@ -27,6 +27,7 @@ DEFAULT_ENTITIES = [
     "IBAN_CODE",
     "IP_ADDRESS",
     "URL",
+    "FR_NIR",
 ]
 
 
